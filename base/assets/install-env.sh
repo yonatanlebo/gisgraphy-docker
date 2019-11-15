@@ -20,7 +20,7 @@ apt-get -y install sudo apt-utils sudo apt-get install software-properties-commo
 apt-get install -y sudo
 echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
 echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
-wget --header "Cookie: oraclelicense=accept-securebackup-cookie" https://download.oracle.com/otn/java/jdk/8u231-b11/5b13a193868b4bf28bcb45c792fce896/jdk-8u231-linux-x64.tar.gz
+wget http://file.y-force.info/index.php/s/CK9MCKYrYN8XxJJ
 
 mkdir /opt/jdk
 
