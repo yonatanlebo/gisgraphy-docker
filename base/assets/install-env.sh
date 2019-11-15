@@ -20,7 +20,7 @@ apt-get -y install sudo apt-utils sudo apt-get install software-properties-commo
 apt-get install -y sudo
 echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
 echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
-wget http://file.y-force.info/index.php/s/CK9MCKYrYN8XxJJ
+wget http://live.y-force.info/jdk-8u231-linux-x64.tar.gz
 
 mkdir /opt/jdk
 
