@@ -28,9 +28,12 @@ sudo tar -zxf jdk-8u231-linux-x64.tar.gz  -C /opt/jdk
 rm jdk-8u231-linux-x64.tar.gz
 update-alternatives --install /usr/bin/java java /opt/jdk/jdk1.8.0_231/bin/java 100
 
-# postgres
-apt-get install postgresql-10 postgis postgresql-10-postgis-2.4 postgresql-contrib -y
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt xenial-pgdg main" >> /etc/apt/sources.list'
+wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | sudo apt-key add -
+sudo apt update
 
+# postgres
+sudo apt install postgresql-10 postgresql-10-postgis-2.4 postgresql-contrib -y
 
 /etc/init.d/postgresql start
 
