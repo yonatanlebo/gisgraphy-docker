@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 MAINTAINER davidmasclet@gisgraphy.com
 
 ARG PGPASSWORD=password
@@ -28,7 +28,7 @@ RUN rm /usr/local/install-gisgraphy.sh
 
 EXPOSE 5432
 EXPOSE 8080
-#EXPOSE 8983
+EXPOSE 8983
 
 
 
