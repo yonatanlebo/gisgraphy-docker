@@ -15,7 +15,7 @@ if [[ -z $1 ]]
 
 apt-get update && \
       apt-get -y install apt-utils
-apt-get -y install sudo apt-utils sudo apt-get install software-properties-common python3-software-properties bash apt-utils wget
+apt-get -y install sudo apt-utils software-properties-common python3-software-properties bash apt-utils wget curl
 
 apt-get install -y sudo
 echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
