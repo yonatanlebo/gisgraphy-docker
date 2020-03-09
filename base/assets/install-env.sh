@@ -15,25 +15,41 @@ if [[ -z $1 ]]
 
 apt-get update && \
       apt-get -y install apt-utils
-apt-get -y install sudo apt-utils software-properties-common python3-software-properties bash apt-utils wget curl
+apt-get -y install sudo apt-utils python-software-properties python3-software-properties software-properties-common bash apt-utils wget
 
+#add-apt-repository -y  ppa:webupd8team/java
+#apt-get update
+#echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
+#echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
+#
 apt-get install -y sudo
+#apt-get install -y oracle-java8-installer 
+#add-apt-repository -y  ppa:webupd8team/java
+#apt-get update
 echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
 echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
-wget http://live.y-force.info/jdk-8u231-linux-x64.tar.gz
+#apt-get install -y oracle-java8-installer sudo
+wget --header "Cookie: oraclelicense=accept-securebackup-cookie" https://download.oracle.com/otn-pub/java/jdk/8u202-b08/1961070e4c9b4e26a04e7f5a083f551e/jdk-8u202-linux-x64.tar.gz
 
 mkdir /opt/jdk
 
-sudo tar -zxf jdk-8u231-linux-x64.tar.gz  -C /opt/jdk
-rm jdk-8u231-linux-x64.tar.gz
-update-alternatives --install /usr/bin/java java /opt/jdk/jdk1.8.0_231/bin/java 100
+sudo tar -zxf jdk-8u202-linux-x64.tar.gz  -C /opt/jdk
+rm jdk-8u202-linux-x64.tar.gz
+update-alternatives --install /usr/bin/java java /opt/jdk/jdk1.8.0_202/bin/java 100
 
-sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt xenial-pgdg main" >> /etc/apt/sources.list'
-wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | sudo apt-key add -
-sudo apt update
+
+
+
 
 # postgres
-sudo apt install postgresql-10 postgresql-10-postgis-2.4 postgresql-contrib -y
+#on ubuntu 16.04
+apt-get install -y postgresql-9.5
+apt-get install -y  postgresql-contrib-9.5
+apt-get install -y postgis postgresql-9.5-postgis-2.2
+
+#on ubuntu 18.04 and later
+#apt-get install postgresql-10 postgis postgresql-10-postgis-2.4 postgresql-contrib
+
 
 /etc/init.d/postgresql start
 
@@ -48,10 +64,17 @@ echo "UPDATE pg_database SET datistemplate=FALSE WHERE datname='template1';" > u
 psql -U postgres -h localhost -a -f utf8.sql; 
 rm utf8.sql
 
+RUN echo "host all  all    0.0.0.0/0  trust" >> /etc/postgresql/9.5/main/pg_hba.conf && \
+    echo "listen_addresses='*'" >> /etc/postgresql/9.5/main/postgresql.conf
+
 psql -U postgres -h 127.0.0.1 -c "CREATE DATABASE gisgraphy ENCODING = 'UTF8';"
 
-psql -U postgres -h 127.0.0.1 -d gisgraphy -f /usr/share/postgresql/10/contrib/postgis-2.4/postgis.sql
-psql -U postgres -h 127.0.0.1 -d gisgraphy -f /usr/share/postgresql/10/contrib/postgis-2.4/spatial_ref_sys.sql
+
+psql -U postgres -h 127.0.0.1 -d gisgraphy -f /usr/share/postgresql/9.5/contrib/postgis-2.2/postgis.sql
+psql -U postgres -h 127.0.0.1 -d gisgraphy -f /usr/share/postgresql/9.5/contrib/postgis-2.2/spatial_ref_sys.sql
+
+#psql -U postgres -h 127.0.0.1 -d gisgraphy -f /usr/share/postgresql/10/contrib/postgis-2.4/postgis.sql
+#psql -U postgres -h 127.0.0.1 -d gisgraphy -f /usr/share/postgresql/10/contrib/postgis-2.4/spatial_ref_sys.sql
 
 /etc/init.d/postgresql stop && sleep 20;
 
